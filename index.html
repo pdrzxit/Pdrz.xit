@@ -1,60 +1,74 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Produção Biel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#060a14;--card:#0f1629;--neon:#00e5ff;--neon2:#7c4dff;--text:#e6f1ff;--muted:#9bb0c9}
-    *{box-sizing:border-box;font-family:Inter,system-ui,Arial}
-    body{margin:0;min-height:100vh;background:radial-gradient(1200px 600px at 20% 10%, #0d1b3a 0%, transparent 60%),linear-gradient(180deg,#060a14,#050814);color:var(--text)}
-    .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
-    .card{width:100%;max-width:380px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),var(--card);border-radius:20px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.06)}
-    .logo{width:56px;height:56px;border-radius:16px;background:conic-gradient(var(--neon),var(--neon2),var(--neon));box-shadow:0 0 24px rgba(0,229,255,.6);margin:0 auto 10px}
-    h1{text-align:center;margin:6px 0 2px}
-    p{color:var(--muted);text-align:center;margin:0 0 14px}
-    input,button{width:100%;padding:12px;border-radius:12px;border:none;margin:6px 0}
-    input{background:#0b1226;color:var(--text)}
-    button{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#000;font-weight:800}
-    .panel{display:none}
-    .control{background:rgba(255,255,255,.05);border-radius:14px;padding:10px;margin:8px 0}
-    input[type=range]{width:100%}
-    .row{display:flex;align-items:center;justify-content:space-between}
-    .switch{position:relative;width:44px;height:24px}
-    .switch input{display:none}
-    .slider{position:absolute;inset:0;background:#1a2440;border-radius:999px}
-    .slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.2s}
-    .switch input:checked + .slider{background:linear-gradient(90deg,var(--neon),var(--neon2))}
-    .switch input:checked + .slider:before{transform:translateX(20px)}
-    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.08);font-size:11px;color:var(--muted)}
+    :root{
+      --bg:#0a0f1f; --card:#0f1733; --neon:#00e5ff; --neon2:#7cff00; --txt:#e6f1ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Orbitron',system-ui;background:radial-gradient(1200px 600px at 10% 10%,#101a44,transparent),var(--bg);color:var(--txt)}
+    .center{min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .card{width:min(420px,92vw);background:linear-gradient(180deg,#0f1733,#0b122a);border:1px solid #1e2a66;border-radius:16px;box-shadow:0 0 30px rgba(0,229,255,.15)}
+    .header{padding:20px;border-bottom:1px solid #1e2a66;display:flex;gap:12px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--neon);box-shadow:0 0 12px var(--neon)}
+    h1{font-size:18px;margin:0;letter-spacing:1px}
+    .body{padding:20px}
+    .field{margin-bottom:12px}
+    input{width:100%;padding:12px;border-radius:10px;border:1px solid #23307a;background:#0a1030;color:var(--txt)}
+    button{width:100%;padding:12px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--neon),#5ad7ff);color:#001018;font-weight:700;cursor:pointer}
+    button:hover{filter:brightness(1.1)}
+    .hidden{display:none}/* Painel */
+.panel{padding:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.box{background:var(--card);border:1px solid #1e2a66;border-radius:14px;padding:14px;position:relative}
+.box h3{margin:0 0 10px;font-size:14px}
+.range{width:100%}
+.toggle{display:flex;align-items:center;gap:8px}
+.pill{position:absolute;top:10px;right:10px;font-size:10px;color:#7cff00}
+.footer{padding:12px;border-top:1px solid #1e2a66;text-align:center;font-size:11px;opacity:.8}
+.float{position:fixed;right:16px;bottom:16px;background:var(--neon);color:#001018;border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px var(--neon);cursor:pointer}
+
   </style>
 </head>
 <body>
-  <div class="center">
-    <div class="card" id="login">
-      <div class="logo"></div>
-      <h1>Produção Biel</h1>
-      <p>Acesso ao painel (demo)</p>
-      <input id="u" placeholder="Usuário" />
-      <input id="p" type="password" placeholder="Senha" />
-      <button onclick="auth()">Entrar</button>
-      <p id="m" style="color:#ff9a9a"></p>
-    </div><div class="card panel" id="panel">
-  <div class="row"><strong>Painel Futurista</strong><span class="pill">UI ONLY</span></div>
-  <div class="control">Precision Control <input type="range" min="0" max="100" value="50"></div>
-  <div class="control">Target Assist <input type="range" min="0" max="100" value="50"></div>
-  <div class="control">Stability <input type="range" min="0" max="100" value="50"></div>
-  <div class="control row">Lock Range <label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-  <div class="control row">Focus Radius <label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-  <div class="control row">Random Module <label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-</div>
-
-  </div>
-  <script>
-    function auth(){
-      if(u.value==='painel' && p.value==='pdrzin'){
-        login.style.display='none';panel.style.display='block';
-      } else m.innerText='Usuário ou senha inválidos';
-    }
-  </script>
-</body>
+  <!-- LOGIN -->
+  <div id="login" class="center">
+    <div class="card">
+      <div class="header"><div class="dot"></div><h1>PRODUÇÃO BIEL</h1></div>
+      <div class="body">
+        <div class="field"><input id="user" placeholder="Usuário"></div>
+        <div class="field"><input id="pass" type="password" placeholder="Senha"></div>
+        <button onclick="entrar()">ENTRAR</button>
+      </div>
+      <div class="footer">Acesso restrito • UI Demo</div>
+    </div>
+  </div>  <!-- PAINEL -->  <div id="panel" class="hidden">
+    <div class="card" style="margin:20px auto;max-width:720px">
+      <div class="header"><div class="dot"></div><h1>PAINEL FLUTUANTE</h1></div>
+      <div class="panel">
+        <div class="grid">
+          <div class="box"><span class="pill">ON/OFF</span><h3>Aimbot</h3><input class="range" type="range" min="0" max="100"></div>
+          <div class="box"><span class="pill">ON/OFF</span><h3>ESP</h3><input class="range" type="range" min="0" max="100"></div>
+          <div class="box"><span class="pill">ON/OFF</span><h3>No Recoil</h3><input class="range" type="range" min="0" max="100"></div>
+          <div class="box"><span class="pill">ON/OFF</span><h3>Aim Lock</h3><input class="range" type="range" min="0" max="100"></div>
+          <div class="box"><span class="pill">ON/OFF</span><h3>FOV</h3><input class="range" type="range" min="0" max="100"></div>
+          <div class="box"><span class="pill">RANDOM</span><h3>Boost</h3><input class="range" type="range" min="0" max="100"></div>
+        </div>
+      </div>
+      <div class="footer">© Produção Biel • Visual demonstrativo</div>
+    </div>
+    <div class="float" onclick="alert('Menu flutuante ativo')">⚡</div>
+  </div><script>
+  function entrar(){
+    const u=document.getElementById('user').value;
+    const p=document.getElementById('pass').value;
+    if(u==='painel' && p==='pdrzin'){
+      document.getElementById('login').classList.add('hidden');
+      document.getElementById('panel').classList.remove('hidden');
+    }else{ alert('Usuário ou senha incorretos'); }
+  }
+</script></body>
 </html>
